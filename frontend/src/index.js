@@ -22,7 +22,7 @@ fetch(urlMovies)
  
     const form = document.querySelector('#movie-form');
     const selectMovie = document.querySelector('#movie')
-    form.addEventListener('click', (e) => {
+    form.addEventListener('submit', (e) => {
         
         e.preventDefault()
         const selectMovieId = selectMovie.options[selectMovie.selectedIndex].id
@@ -36,6 +36,21 @@ fetch(urlMovies)
         form.reset()
     })
 
+    const movieForm = document.getElementById('new-movie')
+    movieForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const movieInfo = {
+           name: e.target.movie.value,
+           average_rating: 0,
+           image_url: e.target.image.value
+        }
+        //reset dropdown menu to default
+        
+   
+    //pass information taken from user inputs to find the fighter
+        addMovie(movieInfo)
+        movieForm.reset()
+    })
   
 
  
@@ -54,12 +69,32 @@ fetch(urlMovies)
     const ulMovie = document.createElement('ul')
     const movieName = document.createElement('h3')
     movieName.textContent = `${movie.name}`
-    const movieAverageRating = document.createElement('li')
+    const movieAverageRating = document.createElement('p')
     movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
     const movieImg = document.createElement('img')
-    movieImg.className = 'img-fluid'
-    movieImg.src = movie.image_url
-
     ulMovie.append(movieImg, movieName, movieAverageRating)
     movieProfile.append(ulMovie)
+    movie.reviews.forEach(review => {
+        const movieReview = document.createElement('li')
+        movieReview.innerHTML = `${review.comment} <button id=${review.id}>like</button>`
+        ulMovie.appendChild(movieReview)
+    })
+    movieImg.className = 'img-fluid'
+    movieImg.src = movie.image_url
+    const reviewBtn = document.createElement('button')
+    reviewBtn.innerText = 'New Review'
+    ulMovie.appendChild(reviewBtn)
+
+    
+ }
+
+ function addMovie(movieInfo) {
+    fetch(urlMovies, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        },
+        body: JSON.stringify(movieInfo)
+    })
  }

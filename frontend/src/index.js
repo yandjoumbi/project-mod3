@@ -23,7 +23,7 @@ fetch(urlMovies)
     const form = document.querySelector('#movie-form');
     const selectMovie = document.querySelector('#movie')
     form.addEventListener('click', (e) => {
-        console.log('click')
+        
         e.preventDefault()
         const selectMovieId = selectMovie.options[selectMovie.selectedIndex].id
    
@@ -34,7 +34,6 @@ fetch(urlMovies)
     //pass information taken from user inputs to find the fighter
         movieFind(selectMovieId)
         form.reset()
-        console.log(movieID)
     })
 
   
@@ -42,30 +41,25 @@ fetch(urlMovies)
  
 
  function movieFind(selectMovieId){
-     console.log(selectMovieId)
-     fetch(urlMovies)
+     fetch(`${urlMovies}/${selectMovieId}`)
      .then(res => res.json())
-     .then( movies => console.log(movies))
-    //     {
-    //      const movie = movies.filter(movie => movie.id == selectMovieId)
-    //      showMovie(movie)
-    //  })
+     .then(res => showMovie(res))
   }
 
-//  function showMovie(movie){
-//    console.log(movie)
-//     const movieProfile = document.querySelector('#movie-profile')
-//     movieProfile.innerHTML = ''
-//     movieProfile.className = 'container-left'
-//     const ulMovie = document.createElement('ul')
-//     const movieName = document.createElement('h3')
-//     movieName.textContent = `${movie.name}`
-//     const movieAverageRating = document.createElement('li')
-//     movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
-//     const movieImg = document.createElement('img')
-//     movieImg.className = 'img-fluid'
-//     movieImg.src = `./images/${movie.id}.jpg`
+ function showMovie(movie){
+  
+    const movieProfile = document.querySelector('#movie-profile')
+    movieProfile.innerHTML = ''
+    movieProfile.className = 'container-left'
+    const ulMovie = document.createElement('ul')
+    const movieName = document.createElement('h3')
+    movieName.textContent = `${movie.name}`
+    const movieAverageRating = document.createElement('li')
+    movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
+    const movieImg = document.createElement('img')
+    movieImg.className = 'img-fluid'
+    movieImg.src = movie.image_url
 
-//     ulMovie.append(movieImg, movieName, movieAverageRating)
-//     movieProfile.append(ulMovie)
-//  }
+    ulMovie.append(movieImg, movieName, movieAverageRating)
+    movieProfile.append(ulMovie)
+ }

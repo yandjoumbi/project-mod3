@@ -9,4 +9,14 @@ class ReviewsController < ApplicationController
         review = Review.find_by(id: params[:id])
         render json: review
     end
+
+    def update
+        review = Review.update(likes: params[:likes])
+        render json: review
+    end
+
+    def create
+        review = Review.create(params)
+        render json: review
+    end
 end

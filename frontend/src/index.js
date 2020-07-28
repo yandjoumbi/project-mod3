@@ -69,10 +69,10 @@ fetch(urlMovies)
     const movieDiv = document.createElement('div')
     const movieName = document.createElement('h3')
     movieName.textContent = `${movie.name}`
-    const movieAverageRating = document.createElement('p')
-    movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
+    // const movieAverageRating = document.createElement('p')
+    // movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
     const movieImg = document.createElement('img')
-    movieDiv.append(movieImg, movieName, movieAverageRating)
+    movieDiv.append(movieImg, movieName)
     movieProfile.append(movieDiv)
     const ulMovie = document.createElement('ul')
     movieDiv.appendChild(ulMovie)
@@ -103,7 +103,6 @@ fetch(urlMovies)
     <input type='submit' value='make it so'>`
     movieDiv.appendChild(reviewForm)
     addReview(movie)
-    // averageRating(movie)
 
  }
 
@@ -151,25 +150,7 @@ fetch(urlMovies)
              likes: 0,
              movie_id: movie.id
          };
-
-           
-                ratings = [e.target.stars.value]
-                movie.reviews.forEach(review => {
-                    ratings.push(review.rating)
-                })
-
-                let total = 0
-                    ratings.forEach(rating => {
-                        total = rating + total
-                        return total
-                    })
-                    let avgRating =  total / ratings.length
-           
-              let newRating = {
-                  average_rating: avgRating
-              }      
          
-
          fetch('http://localhost:3000/reviews/', {
              method: "POST",
              headers: {
@@ -186,29 +167,6 @@ fetch(urlMovies)
                ulMovie.appendChild(movieReview)
                
          })
-
-         fetch(`${urlMovies}/${movie.id}`, {
-             method: 'PATCH', 
-             headers: {
-                'content-type': 'application/json',
-                accept: 'application/json'
-             },
-             body: JSON.stringify(newRating)
-         })
      })
      
  }
-
-//  function averageRating(movie) {
-//      let ratings = []
-//     movie.reviews.forEach(review => {
-//         ratings.push(review.rating)
-//     })
-//     let total = 0
-//     ratings.forEach(rating => {
-//         total = rating + total
-//         return total
-//     })
-//     let avgRating =  total / ratings.length
-//     return avgRating
-//  }

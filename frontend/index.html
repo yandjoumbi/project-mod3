@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Title</title>
   <script defer src="src/index.js"></script>
+  <link rel="stylesheet" href="src/style.css">
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 </head>
@@ -11,16 +12,16 @@
 <body>
   <main>
     <h1><span>Ragnarock Sucks</span></h1>
-    <h2>The most official best website to read reviews and rate movies</h2>
+    <h2>The most official best website to read reviews and write your own!</h2>
     <div id="select-movie"></div>
-    <form id="movie-form" class="container-fluid">
+    <form id="movie-form" class="formative">
     <select id="movie">
     <option value="" disabled selected>Choose your Movie</option>
     </select>
     <input type='submit' value= "see the flick">
    </form>
    <br>
-   <p>Not seeing your film? Add a new one to review:</p>
+   <div class="new-movie-div" id= "new-form-div">Not seeing your film? Add a new one to review:
     <form id="new-movie">
       <input type="text" name="movie" placeholder= "Enter Movie Title">
       <br>
@@ -30,6 +31,7 @@
       <br>
 
       <input type="submit" value= "make it so">
+    </div>
 
     </form>
    <div id="movie-profile"></div>

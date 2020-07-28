@@ -1,0 +1,27 @@
+:root {
+    font-size: 16px;
+    font-family: 'verdana';
+    --text-primary: #b6b6b6;
+    --text-secondary: #ececec;
+  
+}
+
+.review-form {
+    visibility: hidden;
+}
+
+.review-form-clicked {
+    visibility: visible;
+}
+
+.pic {
+    width: 20em;
+}
+
+.new-movie-div {
+    visibility: visible;
+}
+
+.hidden-movie {
+    display: none;
+}

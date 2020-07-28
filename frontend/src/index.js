@@ -24,8 +24,9 @@ fetch(urlMovies)
     const form = document.querySelector('#movie-form');
     const selectMovie = document.querySelector('#movie')
     form.addEventListener('submit', (e) => {
-        
         e.preventDefault()
+        let newForm = document.getElementById('new-form-div')
+        newForm.className = "hidden-movie"
         const selectMovieId = selectMovie.options[selectMovie.selectedIndex].id
    
         movieID = selectMovieId
@@ -65,8 +66,8 @@ fetch(urlMovies)
  function showMovie(movie){
     const movieProfile = document.querySelector('#movie-profile')
     movieProfile.innerHTML = ''
-    movieProfile.className = 'container-left'
     const movieDiv = document.createElement('div')
+    movieDiv.classList = 'movie-display'
     const movieName = document.createElement('h3')
     movieName.textContent = `${movie.name}`
     // const movieAverageRating = document.createElement('p')
@@ -83,12 +84,14 @@ fetch(urlMovies)
         let likes = review.likes
         updateLikes(review, likes)
         })
-    movieImg.className = 'img-fluid'
+    movieImg.className = 'pic'
     movieImg.src = movie.image_url
     const reviewBtn = document.createElement('button')
+    reviewBtn.id = 'review-button'
     reviewBtn.innerText = 'New Review'
     movieDiv.appendChild(reviewBtn)
     const reviewForm = document.createElement('form')
+    reviewForm.classList.add('review-form')
     reviewForm.id = `review-${movie.id}`
     reviewForm.innerHTML = `<input type="textarea" name= "username" placeholder= 'Enter Your Name'>
     <input type="textarea" name= "review" placeholder= 'Enter Your Review'>
@@ -102,8 +105,17 @@ fetch(urlMovies)
     </select>
     <input type='submit' value='make it so'>`
     movieDiv.appendChild(reviewForm)
+    newReview(movie)
     addReview(movie)
 
+ }
+
+ function newReview(movie) {
+    let reviewBtn = document.getElementById('review-button')
+    reviewBtn.addEventListener('click', () => {
+        let revForm = document.getElementById(`review-${movie.id}`)
+        revForm.className = 'review-form-clicked'
+    })
  }
 
  function addMovie(movieInfo) {

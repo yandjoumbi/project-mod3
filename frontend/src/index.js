@@ -45,27 +45,27 @@ fetch(urlMovies)
      console.log(selectMovieId)
      fetch(urlMovies)
      .then(res => res.json())
-     .then( movies => console.log(movies))
-    //     {
-    //      const movie = movies.filter(movie => movie.id == selectMovieId)
-    //      showMovie(movie)
-    //  })
+     .then( movies => 
+        {
+         const movie = movies.filter(movie => movie.id == selectMovieId)
+         showMovie(movie)
+     })
   }
 
-//  function showMovie(movie){
-//    console.log(movie)
-//     const movieProfile = document.querySelector('#movie-profile')
-//     movieProfile.innerHTML = ''
-//     movieProfile.className = 'container-left'
-//     const ulMovie = document.createElement('ul')
-//     const movieName = document.createElement('h3')
-//     movieName.textContent = `${movie.name}`
-//     const movieAverageRating = document.createElement('li')
-//     movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
-//     const movieImg = document.createElement('img')
-//     movieImg.className = 'img-fluid'
-//     movieImg.src = `./images/${movie.id}.jpg`
+ function showMovie(movie){
+   console.log(movie)
+    const movieProfile = document.querySelector('#movie-profile')
+    movieProfile.innerHTML = ''
+    movieProfile.className = 'container-left'
+    const ulMovie = document.createElement('ul')
+    const movieName = document.createElement('h3')
+    movieName.textContent = `${movie.name}`
+    const movieAverageRating = document.createElement('li')
+    movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
+    const movieImg = document.createElement('img')
+    movieImg.className = 'img-fluid'
+    movieImg.src = `./images/${movie.id}.jpg`
 
-//     ulMovie.append(movieImg, movieName, movieAverageRating)
-//     movieProfile.append(ulMovie)
-//  }
+    ulMovie.append(movieImg, movieName, movieAverageRating)
+    movieProfile.append(ulMovie)
+ }

@@ -30,16 +30,11 @@ fetch(urlMovies)
         movieID = selectMovieId
         //reset dropdown menu to default
         
-   
     //pass information taken from user inputs to find the fighter
         movieFind(selectMovieId)
         form.reset()
         console.log(movieID)
     })
-
-  
-
- 
 
  function movieFind(selectMovieId){
      console.log(selectMovieId)

@@ -1250,3 +1250,33 @@ Processing by MoviesController#index as */*
 Completed 200 OK in 7ms (Views: 6.6ms | ActiveRecord: 0.2ms | Allocations: 1537)
 
 
+Started GET "/movies" for ::1 at 2020-07-27 20:16:17 -0500
+  [1m[35m (2.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by MoviesController#index as HTML
+  [1m[36mMovie Load (1.4ms)[0m  [1m[34mSELECT "movies".* FROM "movies"[0m
+  ↳ app/controllers/movies_controller.rb:5:in `index'
+Completed 200 OK in 31ms (Views: 19.1ms | ActiveRecord: 2.1ms | Allocations: 7089)
+
+
+Started GET "/movies" for ::1 at 2020-07-27 20:16:43 -0500
+Processing by MoviesController#index as */*
+  [1m[36mMovie Load (0.2ms)[0m  [1m[34mSELECT "movies".* FROM "movies"[0m
+  ↳ app/controllers/movies_controller.rb:5:in `index'
+Completed 200 OK in 5ms (Views: 4.5ms | ActiveRecord: 0.2ms | Allocations: 1553)
+
+
+Started GET "/movies" for ::1 at 2020-07-27 20:16:45 -0500
+Processing by MoviesController#index as */*
+  [1m[36mMovie Load (0.2ms)[0m  [1m[34mSELECT "movies".* FROM "movies"[0m
+  ↳ app/controllers/movies_controller.rb:5:in `index'
+Completed 200 OK in 7ms (Views: 6.2ms | ActiveRecord: 0.2ms | Allocations: 1552)
+
+
+Started GET "/movies" for ::1 at 2020-07-27 20:16:46 -0500
+Processing by MoviesController#index as */*
+  [1m[36mMovie Load (0.1ms)[0m  [1m[34mSELECT "movies".* FROM "movies"[0m
+  ↳ app/controllers/movies_controller.rb:5:in `index'
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.1ms | Allocations: 1552)
+
+

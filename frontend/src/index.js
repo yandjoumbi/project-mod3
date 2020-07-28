@@ -150,7 +150,13 @@ fetch(urlMovies)
              likes: 0,
              movie_id: movie.id
          };
-         
+
+         if (movie.id === 6 && e.target.stars.value !== '0') {
+            
+            alert('Ragnarock is a trash movie. You cannot rate it above 0 stars.')}
+        else {
+
+
          fetch('http://localhost:3000/reviews/', {
              method: "POST",
              headers: {
@@ -165,8 +171,8 @@ fetch(urlMovies)
             const movieReview = document.createElement('li')
                movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">like</button></p><br>`
                ulMovie.appendChild(movieReview)
-               
          })
+        }
      })
      
  }

@@ -22,45 +22,170 @@ fetch(urlMovies)
  
     const form = document.querySelector('#movie-form');
     const selectMovie = document.querySelector('#movie')
-    form.addEventListener('click', (e) => {
-        console.log('click')
+    form.addEventListener('submit', (e) => {
         e.preventDefault()
+        let newForm = document.getElementById('new-form-div')
+        newForm.className = "hidden-movie"
         const selectMovieId = selectMovie.options[selectMovie.selectedIndex].id
    
         movieID = selectMovieId
         //reset dropdown menu to default
         
+   
     //pass information taken from user inputs to find the fighter
         movieFind(selectMovieId)
         form.reset()
-        console.log(movieID)
     })
 
+    const movieForm = document.getElementById('new-movie')
+    movieForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const movieInfo = {
+           name: e.target.movie.value,
+           average_rating: 0,
+           image_url: e.target.image.value
+        }
+        //reset dropdown menu to default
+        
+   
+    //pass information taken from user inputs to find the fighter
+        addMovie(movieInfo)
+        movieForm.reset()
+    })
+  
+
+ 
+
  function movieFind(selectMovieId){
-     console.log(selectMovieId)
-     fetch(urlMovies)
+     fetch(`${urlMovies}/${selectMovieId}`)
      .then(res => res.json())
-     .then( movies => 
-        {
-         const movie = movies.filter(movie => movie.id == selectMovieId)
-         showMovie(movie)
-     })
+     .then(res => showMovie(res))
   }
 
  function showMovie(movie){
-   console.log(movie)
     const movieProfile = document.querySelector('#movie-profile')
     movieProfile.innerHTML = ''
-    movieProfile.className = 'container-left'
-    const ulMovie = document.createElement('ul')
+    const movieDiv = document.createElement('div')
+    movieDiv.classList = 'movie-display'
     const movieName = document.createElement('h3')
     movieName.textContent = `${movie.name}`
-    const movieAverageRating = document.createElement('li')
-    movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
+    // const movieAverageRating = document.createElement('p')
+    // movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
     const movieImg = document.createElement('img')
-    movieImg.className = 'img-fluid'
-    movieImg.src = `./images/${movie.id}.jpg`
+    movieDiv.append(movieImg, movieName)
+    movieProfile.append(movieDiv)
+    const ulMovie = document.createElement('ul')
+    movieDiv.appendChild(ulMovie)
+    movie.reviews.forEach(review => {
+        const movieReview = document.createElement('li')
+        movieReview.innerHTML = `Comment: <blockquote>${review.comment}</blockquote> Author: <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">like</button></p><br>`
+        ulMovie.appendChild(movieReview)
+        let likes = review.likes
+        updateLikes(review, likes)
+        })
+    movieImg.className = 'pic'
+    movieImg.src = movie.image_url
+    const reviewBtn = document.createElement('button')
+    reviewBtn.id = 'review-button'
+    reviewBtn.innerText = 'New Review'
+    movieDiv.appendChild(reviewBtn)
+    const reviewForm = document.createElement('form')
+    reviewForm.classList.add('review-form')
+    reviewForm.id = `review-${movie.id}`
+   
+    reviewForm.innerHTML = `<input type="textarea" name= "username" placeholder= 'Enter Your Name'>
+    <input type="textarea" name= "review" placeholder= 'Enter Your Review'>
+    <select name= "stars">
+        <option value= "0"> 0 Stars </option>
+        <option value= "1"> 1 Star </option>
+        <option value= "2"> 2 Stars </option>
+        <option value= "3"> 3 Stars </option>
+        <option value= "4"> 4 Stars </option>
+        <option value= "5"> 5 Stars </option>
+    </select>
+    <input type='submit' value='make it so'>`
+    movieDiv.appendChild(reviewForm)
+    newReview(movie)
+    addReview(movie)
 
-    ulMovie.append(movieImg, movieName, movieAverageRating)
-    movieProfile.append(ulMovie)
+ }
+
+ function newReview(movie) {
+    let reviewBtn = document.getElementById('review-button')
+    reviewBtn.addEventListener('click', () => {
+        let revForm = document.getElementById(`review-${movie.id}`)
+        revForm.className = 'review-form-clicked'
+    })
+ }
+
+ function addMovie(movieInfo) {
+    fetch(urlMovies, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        },
+        body: JSON.stringify(movieInfo)
+    })
+ }
+
+ function updateLikes(review, likes) {
+    let allLikes = likes
+    let likeButton = document.getElementById(`like-${review.id}`)
+    likeButton.addEventListener('click', () => {
+       allLikes++
+        document.getElementById(`likes-${review.id}`).innerHTML = `Likes: ${allLikes} <button id="like-${review.id}">like</button>`
+    fetch(`http://localhost:3000/reviews/${review.id}`, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json',
+            accept: 'application/json',
+        },
+        body: JSON.stringify({
+            likes: allLikes
+        })
+    })
+
+})
+
+ }
+
+ function addReview(movie) {
+     let rForm = document.getElementById(`review-${movie.id}`)
+     console.log(rForm)
+     rForm.addEventListener('submit', e => {
+         e.preventDefault();
+         newReview = {
+             username: e.target.username.value ,
+           
+             comment: e.target.review.value,
+             rating: e.target.stars.value,
+             likes: 0,
+             movie_id: movie.id
+         };
+
+         if (movie.id === 6 && e.target.stars.value !== '0') {
+            
+            alert('Ragnarock is a trash movie. You cannot rate it above 0 stars.')}
+        else {
+
+
+         fetch('http://localhost:3000/reviews/', {
+             method: "POST",
+             headers: {
+                 'content-type': 'application/json',
+                 accept: 'application/json'
+             },
+             body: JSON.stringify(newReview)
+         })
+         .then(res => res.json())
+         .then(review => {
+            const ulMovie = document.querySelector('ul')
+            const movieReview = document.createElement('li')
+               movieReview.innerHTML = `<blockquote>${review.comment}</blockquote>  <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">like</button></p><br>`
+               ulMovie.appendChild(movieReview)
+         })
+        }
+     })
+     
  }

@@ -1,0 +1,86 @@
+body {
+    font-family: Circular, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: rgba(163, 133, 89, 0.699);
+    
+  }
+
+h1{
+text-align: center; 
+color: whitesmoke;
+padding: 40px;
+}
+#title{
+    background-color: black;
+}
+
+:root {
+  font-size: 16px;
+  font-family: 'verdana';
+  --text-primary: #b6b6b6;
+  --text-secondary: #ececec;
+
+}
+
+.review-form {
+  visibility: hidden;
+}
+
+.review-form-clicked {
+  visibility: visible;
+}
+
+.pic {
+  width: 20em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+ 
+}
+
+.new-movie-div {
+  visibility: visible;
+}
+
+.hidden-movie {
+  display: none;
+}
+
+input, #movie, #review-button, select {
+  background-color: white;
+  border: none;
+  color:black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  
+}
+
+blockquote {
+  width: 40%;
+  height: 100px;
+  padding: 10px;
+  border: 3px dashed black;
+  background-color: rgba(163, 133, 89, 0.699) ;
+  font: Circular, Helvetica, Arial, sans-serif;
+  color: black;
+  
+ 
+}
+cite{
+  position: absolute;
+  left: 150px;
+
+}
+
+h3{
+  text-align: center;
+}
+
+
+ 

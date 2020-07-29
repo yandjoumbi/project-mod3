@@ -90,7 +90,7 @@ fetch(urlMovies)
     movieImg.src = movie.image_url
 
     makeReviewForm(movie)
-    
+
     // newReview(movie)
 
     addReview(movie)
@@ -115,17 +115,21 @@ fetch(urlMovies)
         body: JSON.stringify(movieInfo)
     })
     .then(res => res.json())
-    .then(movie => {
+    .then(()=> {
         getMovies()
     })
  }
 
 
  function updateLikes(review, likes) {
+     console.log(likes)
     let allLikes = likes
     let likeButton = document.getElementById(`like-${review.id}`)
     likeButton.addEventListener('click', () => {
+        console.log(likeButton)
+        console.log(review.id)
        allLikes++
+       console.log(allLikes)
         document.getElementById(`likes-${review.id}`).innerHTML = `Likes: ${allLikes} <button id="like-${review.id}">like</button>`
     fetch(`http://localhost:3000/reviews/${review.id}`, {
         method: 'PATCH',
@@ -137,14 +141,12 @@ fetch(urlMovies)
             likes: allLikes
          })
         })
-
     })
 }
 
 
  function addReview(movie) {
      let rForm = document.getElementById(`review-${movie.id}`)
-     console.log(rForm)
      rForm.addEventListener('submit', e => {
          e.preventDefault();
          newReview = {
@@ -169,6 +171,7 @@ fetch(urlMovies)
          .then(review => {
             const ulMovie = document.querySelector('ul')
             const movieReview = document.createElement('li')
+            movieReview.className = 'list'
                movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">like</button></p><br>`
                ulMovie.appendChild(movieReview)
          })
@@ -180,8 +183,9 @@ fetch(urlMovies)
  function movieReviews(movie) {
      ulMovie = document.getElementById('ul-reviews')
     movie.reviews.forEach(review => {
-        const movieReview = document.createElement('li')
-        movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p><br>`
+        const movieReview = document.createElement('div')
+        movieReview.className = 'list'
+        movieReview.innerHTML = `Comment: <blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p><br>`
         ulMovie.appendChild(movieReview)
         like(review)
         })
@@ -208,6 +212,7 @@ fetch(urlMovies)
 
 
  function like(review) {
+     console.log(review)
     let likes = review.likes
     updateLikes(review, likes)
  }

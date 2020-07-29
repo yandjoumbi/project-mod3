@@ -83,10 +83,9 @@ fetch(urlMovies)
     movieDiv.appendChild(ulMovie)
     movie.reviews.forEach(review => {
         const movieReview = document.createElement('li')
-        movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">like</button></p><br>`
+        movieReview.innerHTML = `<blockquote>${review.rating} stars</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="userreview-${review.id}">Read Review</button></p><br>`
         ulMovie.appendChild(movieReview)
-        let likes = review.likes
-        updateLikes(review, likes)
+         readReview(review)
         })
     movieImg.className = 'pic'
     movieImg.src = movie.image_url
@@ -196,4 +195,38 @@ fetch(urlMovies)
         }
      })
      
+ }
+
+ function readReview(review) {
+    let reviewBtn = document.getElementById(`userreview-${review.id}`)
+    reviewBtn.addEventListener('click', event => {
+        event.preventDefault();
+       let reviewModal = document.createElement('div')
+       reviewModal.className = "modal-fade"
+       let reviewDialog = document.createElement('div')
+       reviewDialog.className = "modal-dialog"
+        let reviewContent = document.createElement('div')
+        reviewContent.className = 'modal-content'
+        let reviewHeader = document.createElement('div')
+        reviewHeader.className = 'modal-header'
+        let closeBtn = document.createElement('button')
+        closeBtn.className = 'close'
+        closeBtn.type= "button"
+        closeBtn.innerHTML = `&times`
+        let reviewBody = document.createElement('div')
+        reviewBody.className = 'modal-body'
+        reviewBody.innerHTML = `<p>${review.comment}</p>`
+        document.getElementById('main-div').append(reviewModal)
+        reviewModal.appendChild(reviewDialog)
+        reviewDialog.appendChild(reviewContent)
+        reviewContent.appendChild(reviewHeader)
+        reviewContent.appendChild(revieBody)
+
+    })
+ }
+
+ function like() {
+
+    let likes = review.likes
+    updateLikes(review, likes)
  }

@@ -1,7 +1,8 @@
 
 const urlMovies = 'http://localhost:3000/movies'
 const reviews = 'http://localhost:3000/reviews'
-
+getMovies()
+function getMovies() {
 fetch(urlMovies)
  .then(res =>res.json())
  .then(movies => {
@@ -9,6 +10,7 @@ fetch(urlMovies)
          createDropdown(movie)
      }
  })
+}
 
  //dropdown to show movies
  function createDropdown(movie){
@@ -22,11 +24,11 @@ fetch(urlMovies)
 
  
     const form = document.querySelector('#movie-form');
+    
     const selectMovie = document.querySelector('#movie')
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('change', (e) => {
         e.preventDefault()
-        let newForm = document.getElementById('new-form-div')
-        newForm.className = "hidden-movie"
+        // let newForm = document.getElementById('new-form-div')
         const selectMovieId = selectMovie.options[selectMovie.selectedIndex].id
    
         movieID = selectMovieId
@@ -64,7 +66,9 @@ fetch(urlMovies)
   }
 
  function showMovie(movie){
-    const movieProfile = document.querySelector('#movie-profile')
+
+    const movieProfile = document.getElementById('movie-profile')
+    movieProfile.className = 'movie-box-visible'
     movieProfile.innerHTML = ''
     const movieDiv = document.createElement('div')
     movieDiv.classList = 'movie-display'
@@ -126,6 +130,11 @@ fetch(urlMovies)
             Accept: 'application/json'
         },
         body: JSON.stringify(movieInfo)
+    })
+    .then(res => res.json())
+    .then(movie => {
+        getMovies()
+        
     })
  }
 

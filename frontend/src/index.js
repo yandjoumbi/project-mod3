@@ -68,9 +68,10 @@ fetch(urlMovies)
  function showMovie(movie){
 
     const movieProfile = document.getElementById('movie-profile')
-    movieProfile.className = 'movie-box-visible'
+    movieProfile.className = ''
     movieProfile.innerHTML = ''
     const movieDiv = document.createElement('div')
+    movieDiv.id = 'movie-div'
     movieDiv.classList = 'movie-display'
     const movieName = document.createElement('h3')
     movieName.textContent = `${movie.name}`
@@ -80,46 +81,29 @@ fetch(urlMovies)
     movieDiv.append(movieImg, movieName)
     movieProfile.append(movieDiv)
     const ulMovie = document.createElement('ul')
+    ulMovie.id = 'ul-reviews'
     movieDiv.appendChild(ulMovie)
-    movie.reviews.forEach(review => {
-        const movieReview = document.createElement('li')
-        movieReview.innerHTML = `<blockquote>${review.rating} stars</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="userreview-${review.id}">Read Review</button></p><br>`
-        ulMovie.appendChild(movieReview)
-         readReview(review)
-        })
+
+    movieReviews(movie)
+
     movieImg.className = 'pic'
     movieImg.src = movie.image_url
-    const reviewBtn = document.createElement('button')
-    reviewBtn.id = 'review-button'
-    reviewBtn.innerText = 'New Review'
-    movieDiv.appendChild(reviewBtn)
-    const reviewForm = document.createElement('form')
-    reviewForm.classList.add('review-form')
-    reviewForm.id = `review-${movie.id}`
-    reviewForm.innerHTML = `<input type="textarea" name= "username" placeholder= 'Enter Your Name'>
-    <input type="textarea" name= "review" placeholder= 'Enter Your Review'>
-    <select name= "stars">
-        <option value= "0"> 0 Stars </option>
-        <option value= "1"> 1 Star </option>
-        <option value= "2"> 2 Stars </option>
-        <option value= "3"> 3 Stars </option>
-        <option value= "4"> 4 Stars </option>
-        <option value= "5"> 5 Stars </option>
-    </select>
-    <input type='submit' value='make it so'>`
-    movieDiv.appendChild(reviewForm)
-    newReview(movie)
+
+    makeReviewForm(movie)
+    
+    // newReview(movie)
+
     addReview(movie)
 
  }
 
- function newReview(movie) {
-    let reviewBtn = document.getElementById('review-button')
-    reviewBtn.addEventListener('click', () => {
-        let revForm = document.getElementById(`review-${movie.id}`)
-        revForm.className = 'review-form-clicked'
-    })
- }
+//  function newReview(movie) {
+//     let reviewBtn = document.getElementById('review-button')
+//     reviewBtn.addEventListener('click', () => {
+//         let revForm = document.getElementById(`review-${movie.id}`)
+//         revForm.className = 'review-form-clicked'
+//     })
+//  }
 
  function addMovie(movieInfo) {
     fetch(urlMovies, {
@@ -133,9 +117,9 @@ fetch(urlMovies)
     .then(res => res.json())
     .then(movie => {
         getMovies()
-        
     })
  }
+
 
  function updateLikes(review, likes) {
     let allLikes = likes
@@ -148,15 +132,15 @@ fetch(urlMovies)
         headers: {
             'content-type': 'application/json',
             accept: 'application/json',
-        },
-        body: JSON.stringify({
+            },
+         body: JSON.stringify({
             likes: allLikes
+         })
         })
+
     })
+}
 
-})
-
- }
 
  function addReview(movie) {
      let rForm = document.getElementById(`review-${movie.id}`)
@@ -170,13 +154,9 @@ fetch(urlMovies)
              likes: 0,
              movie_id: movie.id
          };
-
          if (movie.id === 6 && e.target.stars.value !== '0') {
-            
             alert('Ragnarock is a trash movie. You cannot rate it above 0 stars.')}
         else {
-
-
          fetch('http://localhost:3000/reviews/', {
              method: "POST",
              headers: {
@@ -194,39 +174,42 @@ fetch(urlMovies)
          })
         }
      })
-     
  }
 
- function readReview(review) {
-    let reviewBtn = document.getElementById(`userreview-${review.id}`)
-    reviewBtn.addEventListener('click', event => {
-        event.preventDefault();
-       let reviewModal = document.createElement('div')
-       reviewModal.className = "modal-fade"
-       let reviewDialog = document.createElement('div')
-       reviewDialog.className = "modal-dialog"
-        let reviewContent = document.createElement('div')
-        reviewContent.className = 'modal-content'
-        let reviewHeader = document.createElement('div')
-        reviewHeader.className = 'modal-header'
-        let closeBtn = document.createElement('button')
-        closeBtn.className = 'close'
-        closeBtn.type= "button"
-        closeBtn.innerHTML = `&times`
-        let reviewBody = document.createElement('div')
-        reviewBody.className = 'modal-body'
-        reviewBody.innerHTML = `<p>${review.comment}</p>`
-        document.getElementById('main-div').append(reviewModal)
-        reviewModal.appendChild(reviewDialog)
-        reviewDialog.appendChild(reviewContent)
-        reviewContent.appendChild(reviewHeader)
-        reviewContent.appendChild(revieBody)
 
-    })
+ function movieReviews(movie) {
+     ulMovie = document.getElementById('ul-reviews')
+    movie.reviews.forEach(review => {
+        const movieReview = document.createElement('li')
+        movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p><br>`
+        ulMovie.appendChild(movieReview)
+        like(review)
+        })
  }
 
- function like() {
+ function makeReviewForm(movie) {
+    const movieDiv = document.getElementById('movie-div')
+    const reviewForm = document.createElement('form')
+    reviewForm.classList.add('review-form')
+    reviewForm.id = `review-${movie.id}`
+    reviewForm.innerHTML = `<input type="textarea" name= "username" placeholder= 'Enter Your Name'>
+    <input type="textarea" name= "review" placeholder= 'Enter Your Review'>
+    <select name= "stars">
+        <option value= "0"> 0 Stars </option>
+        <option value= "1"> 1 Star </option>
+        <option value= "2"> 2 Stars </option>
+        <option value= "3"> 3 Stars </option>
+        <option value= "4"> 4 Stars </option>
+        <option value= "5"> 5 Stars </option>
+    </select>
+    <input type='submit' value='make it so'>`
+    movieDiv.appendChild(reviewForm)
+ }
 
+
+ function like(review) {
     let likes = review.likes
     updateLikes(review, likes)
  }
+
+

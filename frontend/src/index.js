@@ -75,12 +75,13 @@ fetch(urlMovies)
     movieDiv.id = 'movie-div'
     movieDiv.classList = 'movie-display'
     const movieName = document.createElement('h3')
-    movieName.textContent = `${movie.name}`
+    // movieName.textContent = `${movie.name}`
     const movieAverageRating = document.createElement('div')
-    movieAverageRating.innerHTML = `Average Rating: ${avg.toFixed(1)}`
+    movieAverageRating.className = 'bigstars'
+    movieAverageRating.style = `--rating: ${avg.toFixed(2)}`
     const movieImg = document.createElement('img')
     movieDiv.append(movieImg, movieName)
-    movieDiv.appendChild(movieAverageRating)
+    movieName.appendChild(movieAverageRating)
     movieProfile.append(movieDiv)
     const ulMovie = document.createElement('div')
     ulMovie.id = 'ul-reviews'
@@ -100,13 +101,6 @@ fetch(urlMovies)
 
  }
 
-//  function newReview(movie) {
-//     let reviewBtn = document.getElementById('review-button')
-//     reviewBtn.addEventListener('click', () => {
-//         let revForm = document.getElementById(`review-${movie.id}`)
-//         revForm.className = 'review-form-clicked'
-//     })
-//  }
 
  function addMovie(movieInfo) {
     fetch(urlMovies, {
@@ -134,7 +128,7 @@ fetch(urlMovies)
         console.log(likeButton)
         console.log(review.id)
        allLikes++
-       console.log(allLikes)
+
         document.getElementById(`likes-${review.id}`).innerHTML = `Likes: ${allLikes} <button id="like-${review.id}">like</button>`
     fetch(`http://localhost:3000/reviews/${review.id}`, {
         method: 'PATCH',
@@ -176,9 +170,17 @@ fetch(urlMovies)
          .then(review => {
             const ulMovie = document.getElementById('ul-reviews')
             const movieReview = document.createElement('div')
-            movieReview.className = 'list'
-               movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">like</button></p><br>`
-               ulMovie.appendChild(movieReview),
+                movieReview.className = 'review-div'
+                let starDiv = document.createElement('div')
+                starDiv.className = 'stars'
+                starDiv.style = `--rating: ${review.rating}`
+                let likesDiv = document.createElement('div')
+                likesDiv.className = 'likes-div'
+                likesDiv.innerHTML = `<p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p>`
+                movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br>`
+                movieReview.appendChild(starDiv)
+                movieReview.appendChild(likesDiv)
+                ulMovie.appendChild(movieReview),
                setAvgRating(movie)
          })
         }
@@ -191,7 +193,15 @@ fetch(urlMovies)
     movie.reviews.forEach(review => {
         const movieReview = document.createElement('div')
         movieReview.className = 'review-div'
-        movieReview.innerHTML = `Rating: ${review.rating} <blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p><br>`
+        let starDiv = document.createElement('div')
+        starDiv.className = 'stars'
+        starDiv.style = `--rating: ${review.rating}`
+        let likesDiv = document.createElement('div')
+        likesDiv.className = 'likes-div'
+        likesDiv.innerHTML = `<p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p>`
+        movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br>`
+        movieReview.appendChild(starDiv)
+        movieReview.appendChild(likesDiv)
         ulMovie.appendChild(movieReview)
         like(review)
         })
@@ -199,6 +209,8 @@ fetch(urlMovies)
 
  function makeReviewForm(movie) {
     const movieDiv = document.getElementById('movie-div')
+    const reviewName = document.createElement('p')
+    reviewName.innerText = 'Enter your review:'
     const reviewForm = document.createElement('form')
     reviewForm.classList.add('review-form')
     reviewForm.id = `review-${movie.id}`
@@ -213,6 +225,7 @@ fetch(urlMovies)
         <option value= "5"> 5 Stars </option>
     </select>
     <input type='submit' value='make it so'>`
+    movieDiv.appendChild(reviewName)
     movieDiv.appendChild(reviewForm)
  }
 
@@ -256,3 +269,4 @@ function setAvgRating(movie, avg) {
         })
     })
 }
+

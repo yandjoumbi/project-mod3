@@ -66,7 +66,8 @@ fetch(urlMovies)
   }
 
  function showMovie(movie){
-
+    let avg = avgRating(movie)
+    setAvgRating(movie)
     const movieProfile = document.getElementById('movie-profile')
     movieProfile.className = ''
     movieProfile.innerHTML = ''
@@ -75,14 +76,15 @@ fetch(urlMovies)
     movieDiv.classList = 'movie-display'
     const movieName = document.createElement('h3')
     movieName.textContent = `${movie.name}`
-    // const movieAverageRating = document.createElement('p')
-    // movieAverageRating.innerHTML = `Average Rating:${movie.average_rating}`
+    const movieAverageRating = document.createElement('p')
+    movieAverageRating.innerHTML = `Average Rating:${avg.toFixed(1)}`
     const movieImg = document.createElement('img')
     movieDiv.append(movieImg, movieName)
     movieProfile.append(movieDiv)
     const ulMovie = document.createElement('ul')
     ulMovie.id = 'ul-reviews'
     movieDiv.appendChild(ulMovie)
+    movieDiv.appendChild(movieAverageRating)
 
     movieReviews(movie)
 
@@ -92,7 +94,7 @@ fetch(urlMovies)
     makeReviewForm(movie)
 
     // newReview(movie)
-
+    
     addReview(movie)
 
  }
@@ -173,7 +175,8 @@ fetch(urlMovies)
             const movieReview = document.createElement('li')
             movieReview.className = 'list'
                movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">like</button></p><br>`
-               ulMovie.appendChild(movieReview)
+               ulMovie.appendChild(movieReview),
+               setAvgRating(movie)
          })
         }
      })
@@ -217,4 +220,52 @@ fetch(urlMovies)
     updateLikes(review, likes)
  }
 
+function avgRating(movie) {
+    ratings = []
+    movie.reviews.forEach(review => {
+        ratings.push(review.rating)
+    })
+    let avg = 0
+    let total = 0
+    ratings.forEach(rating => {
+        total = total + rating
+    })
+    if (ratings.length == 0) {
+         avg = 0
+    }
+    else {
+        avg = total / ratings.length
+    }
+    return avg
+}
 
+
+
+function setAvgRating(movie) {
+    ratings = []
+    movie.reviews.forEach(review => {
+        ratings.push(review.rating)
+    })
+    let avg = 0
+    let total = 0
+    ratings.forEach(rating => {
+        total = total + rating
+    })
+    if (ratings.length == 0) {
+         avg = 0
+    }
+    else {
+        avg = total / ratings.length
+    }
+    return avg,
+    fetch(`${urlMovies}/${movie.id}`, {
+        method: "PATCH",
+        headers: {
+            'content-type': 'application/json',
+            accept: 'application/json'
+        },
+        body: JSON.stringify({
+            average_rating: avg
+        })
+    })
+}

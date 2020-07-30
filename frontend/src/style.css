@@ -81,9 +81,9 @@ blockquote {
     text-align: center;
   }
 
-  .list {
+  /* .list {
       list-style: none;
-  }
+  } */
 
   .review-div {
     margin: 3em;

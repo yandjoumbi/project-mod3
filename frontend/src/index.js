@@ -67,7 +67,7 @@ fetch(urlMovies)
 
  function showMovie(movie){
     let avg = avgRating(movie)
-    setAvgRating(movie)
+    setAvgRating(movie, avg)
     const movieProfile = document.getElementById('movie-profile')
     movieProfile.className = ''
     movieProfile.innerHTML = ''
@@ -80,11 +80,12 @@ fetch(urlMovies)
     movieAverageRating.innerHTML = `Average Rating:${avg.toFixed(1)}`
     const movieImg = document.createElement('img')
     movieDiv.append(movieImg, movieName)
+    movieDiv.appendChild(movieAverageRating)
     movieProfile.append(movieDiv)
     const ulMovie = document.createElement('ul')
     ulMovie.id = 'ul-reviews'
     movieDiv.appendChild(ulMovie)
-    movieDiv.appendChild(movieAverageRating)
+    
 
     movieReviews(movie)
 
@@ -117,9 +118,11 @@ fetch(urlMovies)
         body: JSON.stringify(movieInfo)
     })
     .then(res => res.json())
-    .then(()=> {
-        getMovies()
+    .then(movie => {
+    createDropdown(movie)
     })
+
+    
  }
 
 
@@ -241,23 +244,7 @@ function avgRating(movie) {
 
 
 
-function setAvgRating(movie) {
-    ratings = []
-    movie.reviews.forEach(review => {
-        ratings.push(review.rating)
-    })
-    let avg = 0
-    let total = 0
-    ratings.forEach(rating => {
-        total = total + rating
-    })
-    if (ratings.length == 0) {
-         avg = 0
-    }
-    else {
-        avg = total / ratings.length
-    }
-    return avg,
+function setAvgRating(movie, avg) {
     fetch(`${urlMovies}/${movie.id}`, {
         method: "PATCH",
         headers: {

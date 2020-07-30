@@ -20,13 +20,21 @@ body {
   }
 
 .pic {
-    width: 20em;
+    width: 30em;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
-
+input {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
     h1{
       text-align: center;
@@ -75,6 +83,15 @@ blockquote {
 
   .list {
       list-style: none;
+  }
+
+  .review-div {
+    margin: 3em;
+    width: 40%;
+    max-height: 100vh;
+    padding: .5em;
+    border-radius: 1em;
+    background-color: rgba(107, 107, 107, 0.699);
   }
  
   

@@ -76,13 +76,13 @@ fetch(urlMovies)
     movieDiv.classList = 'movie-display'
     const movieName = document.createElement('h3')
     movieName.textContent = `${movie.name}`
-    const movieAverageRating = document.createElement('p')
-    movieAverageRating.innerHTML = `Average Rating:${avg.toFixed(1)}`
+    const movieAverageRating = document.createElement('div')
+    movieAverageRating.innerHTML = `Average Rating: ${avg.toFixed(1)}`
     const movieImg = document.createElement('img')
     movieDiv.append(movieImg, movieName)
     movieDiv.appendChild(movieAverageRating)
     movieProfile.append(movieDiv)
-    const ulMovie = document.createElement('ul')
+    const ulMovie = document.createElement('div')
     ulMovie.id = 'ul-reviews'
     movieDiv.appendChild(ulMovie)
     
@@ -174,8 +174,8 @@ fetch(urlMovies)
          })
          .then(res => res.json())
          .then(review => {
-            const ulMovie = document.querySelector('ul')
-            const movieReview = document.createElement('li')
+            const ulMovie = document.getElementById('ul-reviews')
+            const movieReview = document.createElement('div')
             movieReview.className = 'list'
                movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">like</button></p><br>`
                ulMovie.appendChild(movieReview),
@@ -190,8 +190,8 @@ fetch(urlMovies)
      ulMovie = document.getElementById('ul-reviews')
     movie.reviews.forEach(review => {
         const movieReview = document.createElement('div')
-        movieReview.className = 'list'
-        movieReview.innerHTML = `Comment: <blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p><br>`
+        movieReview.className = 'review-div'
+        movieReview.innerHTML = `Rating: ${review.rating} <blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br><p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p><br>`
         ulMovie.appendChild(movieReview)
         like(review)
         })

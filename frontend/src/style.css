@@ -125,8 +125,6 @@ h3 {
 
 .likes-div {
   width: 10;
-  
-  
 }
 
 .bigstars {
@@ -137,6 +135,7 @@ h3 {
   line-height: 1;
   text-align: center;
 }
+
 .bigstars::before {
   content: '★★★★★';
   letter-spacing: 3px;

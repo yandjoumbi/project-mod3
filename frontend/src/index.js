@@ -98,7 +98,6 @@ fetch(urlMovies)
     
     addReview(movie)
 
-
  }
 
 
@@ -113,7 +112,12 @@ fetch(urlMovies)
     })
     .then(res => res.json())
     .then(movie => {
-    createDropdown(movie)
+        if (movie.id === null) {
+            alert("Movie already exists. Or you're trying to make another Thor movie. Just stop, you're embarassing yourself.")
+        }
+        else {
+            createDropdown
+        }
     })
 
     
@@ -183,6 +187,7 @@ fetch(urlMovies)
                 ulMovie.appendChild(movieReview),
                setAvgRating(movie)
          })
+         rForm.reset()
         }
      })
  }
@@ -191,8 +196,6 @@ fetch(urlMovies)
  function movieReviews(movie) {
      ulMovie = document.getElementById('ul-reviews')
     movie.reviews.forEach(review => {
-        const deleteRw = document.createElement('button')
-        deleteRw.innerHTML = 'X'
         const movieReview = document.createElement('div')
         movieReview.className = 'review-div'
         let starDiv = document.createElement('div')
@@ -202,7 +205,6 @@ fetch(urlMovies)
         likesDiv.className = 'likes-div'
         likesDiv.innerHTML = `<p id="likes-${review.id}">Likes: ${review.likes} <button id="like-${review.id}">Like</button></p>`
         movieReview.innerHTML = `<blockquote>${review.comment}</blockquote> <cite>${review.username}</cite><br>`
-        movieReview.append(deleteRw)
         movieReview.appendChild(starDiv)
         movieReview.appendChild(likesDiv)
         ulMovie.appendChild(movieReview)
@@ -273,8 +275,5 @@ function setAvgRating(movie, avg) {
     })
 }
 
-function deleteReview(review){
-    let v = review.comment
-console.log(v)
-}
+
 

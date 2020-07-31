@@ -113,7 +113,12 @@ fetch(urlMovies)
     })
     .then(res => res.json())
     .then(movie => {
-    createDropdown(movie)
+        if (movie.id === null) {
+            alert("Movie already exists. Or you're trying to make another Thor movie. Just stop, you're embarassing yourself.")
+        }
+        else {
+            createDropdown
+        }
     })
 
     
@@ -183,6 +188,7 @@ fetch(urlMovies)
                 ulMovie.appendChild(movieReview),
                setAvgRating(movie)
          })
+         rForm.reset()
         }
      })
  }

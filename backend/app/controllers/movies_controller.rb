@@ -6,7 +6,7 @@ class MoviesController < ApplicationController
     end
 
     def show
-        movie = Movie.find(id: params[:id])
+        movie = Movie.find_by(id: params[:id])
         render json: movie, include: [:reviews]
     end
 
@@ -17,7 +17,7 @@ class MoviesController < ApplicationController
     end
 
     def update
-        movie = Movie.find(params[:id])
+        movie = Movie.find_by(params[:id])
         movie.update(movie_params)
         render json: movie
     end
